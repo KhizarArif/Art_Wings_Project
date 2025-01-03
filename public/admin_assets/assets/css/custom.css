@@ -1,0 +1,21 @@
+.dropzone{
+    background: transparent !important;
+}
+
+.order_span{
+    font-size: 1rem;
+    margin: 0;
+    margin-right: 12px;
+    font-weight: 500;
+}
+
+.order_status_container{
+    display: flex;
+    flex-direction: column;
+}
+
+#submit_loader {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
