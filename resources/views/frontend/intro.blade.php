@@ -4,7 +4,7 @@
         <div class="intro_section row">
             <div class="col-md-5">
                 <div class="intro_img">
-                    <img src="{{ asset('frontend_assets/img/intro.jpeg') }}" alt="">
+                    {{-- <img src="{{ asset('frontend_assets/img/intro.jpeg') }}" alt=""> --}}
                 </div>
             </div>
             <div class="col-md-7">

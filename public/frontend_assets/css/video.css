@@ -1,0 +1,12 @@
+.instagram_video {
+    width: 100%;
+    height: 50%;
+    border: 1px solid red;
+    display: flex;
+}
+
+@media screen and (max-width: 768px) {
+    .instagram_video{
+        flex-direction: column;
+    }
+}

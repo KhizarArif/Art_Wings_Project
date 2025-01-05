@@ -7,6 +7,11 @@
     font-family: "Montserrat", sans-serif;
 }
 
+.header{
+    height: 15vh;
+    /* background-color: #fff; */
+    background-color: #837777;
+}
 
 /* Sidebar Start */
 

@@ -31,9 +31,18 @@
                                     </a>
                                     <div class="overlay">
                                         <div class="icons">
-                                            <a href="javascript::void(0)"
+                                            <a href="javascript:void(0)"
                                                 onclick="newArrivalAddToCart('{{ $newArrivalProduct->id }}', '{{ $newArrivalProduct->newArrivalImages->first()->id }}', 'New Arrivals')">
                                                 <i class="fa fa-shopping-cart" aria-hidden="true" data-toggle="tooltip"
+                                                    data-placement="top" title="Add TO Cart"></i>
+                                            </a>
+
+                                            <a href="javascript:void(0)"
+                                                onclick="openImageModal([
+                                                @foreach ($newArrivalProduct->newArrivalImages as $image)
+                                                    '{{ asset('uploads/NewArrival/large/' . $image->image) }}', @endforeach
+                                            ])">
+                                                <i class="fa fa-search-plus" aria-hidden="true" data-toggle="tooltip"
                                                     data-placement="top" title="view details"></i>
                                             </a>
                                         </div>
@@ -56,10 +65,16 @@
     </section>
     {{-- New Arrivals End --}}
 
+    @include('frontend.imageModal')
+
     @include('frontend.categories')
 
     @include('frontend.featured')
+
+    @include('frontend.video')
+
     @include('frontend.imageGallary')
+    
 @endsection
 
 @section('customJs')
@@ -105,6 +120,13 @@
                                                             <i class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" 
                                                                 data-placement="top" title="view details"></i>
                                                         </a>
+                                                            <a href="javascript:void(0)"
+                                                             onclick="openImageModal([${subcategory.sub_category_images.map(function(image) {
+                                    return `'{{ asset('uploads/subCategory/large/') }}/' + '${image.image}'`;
+                                }).join(', ')}])">
+                                                                <i class="fa fa-search-plus" aria-hidden="true" data-toggle="tooltip"
+                                                                    data-placement="top" title="view details"></i>
+                                                            </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,6 +151,77 @@
 
             });
         });
+
+        function filterCategories(id) {
+            $.ajax({
+                url: "{{ route('front.filterCategories') }}",
+                type: "POST",
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.status === true) {
+                        $('#pills-tabContent').empty();
+                        $.each(response.filterCategories, function(key, subcategory) {
+
+                            let tabContent = `
+                        <div class="tab-pane fade show active" id="pills-${subcategory.id}" role="tabpanel"
+                            aria-labelledby="pills-${subcategory.id}-tab">
+                            <div class="container-full mb-3">
+                                <div class="row">
+                    `;
+
+                            $.each(subcategory.sub_category_images, function(imgKey, subImage) {
+                                tabContent += `
+                            <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12 filter-item all new d-flex flex-column justify-content-between">
+                                <div class="card border border-2">
+                                    <div class="img_container position-relative">
+                                        <a href="javascript:void(0)">
+                                            <img src="/uploads/subCategory/large/${subImage.image}"
+                                                class="card-img-top shop-item-image" alt="">
+                                        </a>
+                                        <div class="overlay">
+                                            <h5 class="shop-item-title">${subcategory.name}</h5>
+                                            <div class="icons">
+                                                <a href="/all_products/${subcategory?.slug}">
+                                                    <i class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" 
+                                                        data-placement="top" title="view details"></i>
+                                                </a>
+                                                <a href="javascript:void(0)"
+                                                    onclick="openImageModal([${subcategory.sub_category_images.map(function(image) {
+                                    return `'{{ asset('uploads/subCategory/large/') }}/' + '${image.image}'`;
+                                }).join(', ')}])">
+                                                    <i class="fa fa-search-plus" aria-hidden="true" data-toggle="tooltip"
+                                                        data-placement="top" title="view details"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        `;
+                            });
+
+                            tabContent += `
+                                </div>
+                            </div>
+                        </div> 
+                    `;
+
+                            $('#pills-tabContent').append(tabContent);
+                        });
+
+                    } else {
+                        console.log("Error", response.message);
+                    }
+                }
+            });
+        }
 
 
         function newArrivalAddToCart(productId, productImageId = null, feature = null) {
@@ -195,69 +288,38 @@
                 // updateCart(rowId, newQty, $(this));
             }
         });
+    </script>
 
-        function filterCategories(id) {
-            $.ajax({
-                url: "{{ route('front.filterCategories') }}",
-                type: "POST",
-                data: {
-                    id: id
-                },
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    if (response.status === true) {
-                        $('#pills-tabContent').empty();
-                        $.each(response.filterCategories, function(key, subcategory) {
+    <script>
+        function openImageModal(images) {
+            console.log(images);
 
-                            let tabContent = `
-                        <div class="tab-pane fade show active" id="pills-${subcategory.id}" role="tabpanel"
-                            aria-labelledby="pills-${subcategory.id}-tab">
-                            <div class="container-full mb-3">
-                                <div class="row">
-                    `;
+            // Get the carousel container
+            const carouselImages = document.getElementById('carouselImages');
+            carouselImages.innerHTML = ''; // Clear any previous content
 
-                            $.each(subcategory.sub_category_images, function(imgKey, subImage) {
-                                tabContent += `
-                            <div class="col-md-4 col-lg-3 col-sm-6 col-xs-12 filter-item all new d-flex flex-column justify-content-between">
-                                <div class="card border border-2">
-                                    <div class="img_container position-relative">
-                                        <a href="javascript:void(0)">
-                                            <img src="/uploads/subCategory/large/${subImage.image}"
-                                                class="card-img-top shop-item-image" alt="">
-                                        </a>
-                                        <div class="overlay">
-                                            <h5 class="shop-item-title">${subcategory.name}</h5>
-                                            <div class="icons">
-                                                <a href="/all_products/${subcategory?.slug}">
-                                                    <i class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" 
-                                                        data-placement="top" title="view details"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-                                </div>
-                            </div>
-                        `;
-                            });
-
-                            tabContent += `
-                                </div>
-                            </div>
-                        </div> 
-                    `;
-
-                            $('#pills-tabContent').append(tabContent);
-                        });
-
-                    } else {
-                        console.log("Error", response.message);
-                    }
-                }
+            // Add images dynamically to the carousel
+            images.forEach((imageUrl, index) => {
+                const isActive = index === 0 ? 'active' : '';
+                const slide = `
+                <div class="carousel-item ${isActive}">
+                    <img src="${imageUrl}" class="d-block w-100 img-fluid" alt="Slide ${index + 1}">
+                </div>`;
+                carouselImages.innerHTML += slide;
             });
+
+            // Show the modal
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            imageModal.show();
         }
+    </script>
+
+    {{-- Close Model --}}
+    <script>
+        // Close the modal programmatically
+        document.querySelector('.btn-close').addEventListener('click', function() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('imageModal'));
+            modal.hide();
+        });
     </script>
 @endsection

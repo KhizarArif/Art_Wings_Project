@@ -27,7 +27,11 @@ $subCategories = getSubCategories();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/styles.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/imageGallary.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend_assets/css/video.css') }}" />
 
+
+    {{-- Bootstrap --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     {{-- Toaster --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
@@ -49,7 +53,7 @@ $subCategories = getSubCategories();
         /* Color of the links BEFORE scroll */
         .navbar-before-scroll .nav-link,
         .navbar-before-scroll .navbar-toggler-icon {
-            color: #f3d2d2;
+            color: #ce0000;
         }
 
         /* Color of the links AFTER scroll */
@@ -97,11 +101,36 @@ $subCategories = getSubCategories();
             } */
         }
     </style>
+    <style>
+        /* Default modal width */
+        .modal-responsive {
+            max-width: 100%;
+            /* Default width */
+        }
+
+        /* Medium screens (tablets and up) */
+        @media (min-width: 768px) {
+            .modal-responsive {
+                max-width: 100%;
+                height: 80%;
+                /* Medium size for tablets */
+            }
+        }
+
+        /* Large screens (desktops and up) */
+        @media (min-width: 992px) {
+            .modal-responsive {
+                max-width: 50%;
+                /* Medium size for desktops */
+            }
+        }
+    </style>
+
 </head>
 
 <body>
     <!--Main Navigation-->
-    <header style="height: 15vh; background-color: #131212">
+    <header class="header">
 
         <!-- Navbar -->
         <nav id="main-navbar" class="navbar navbar-expand-md fixed-top navbar-before-scroll shadow-0 ">
@@ -110,7 +139,8 @@ $subCategories = getSubCategories();
                 <!-- Toggle button -->
                 <button data-mdb-collapse-init data-mdb-button-init class="navbar-toggler bg-primary " type="button"
                     data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="margin-top: 1rem;">
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    style="margin-top: 1rem;">
                     <i class="fas fa-bars"></i>
                 </button>
 
@@ -126,44 +156,18 @@ $subCategories = getSubCategories();
                         </div>
 
                         <div class="col-md-6">
-                            <ul class="social_media_container ">
-                                <li class="nav-item cart_count_container">
-                                    <a class="nav-link pe-2" href="{{ route('front.cart') }}" title="Add to cart">
-                                        <i class="fas fa-shopping-cart fa-lg"></i>
-                                        <div class="cart_count">{{ Cart::count() }}</div>
-                                    </a>
-                                </li>
-                                <div class="d-flex flex-wrap mt-3">
-                                    <li class="nav-item">
-                                        <a class="nav-link pe-2" href="#!">
-                                            <i class="fab fa-youtube fa-2x"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link px-2" href="#!">
-                                            <i class="fab fa-facebook-f fa-2x"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link px-2" href="#!">
-                                            <i class="fab fa-twitter fa-2x"></i>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link ps-2" href="#!">
-                                            <i class="fab fa-instagram fa-2x"></i>
-                                        </a>
-                                    </li>
-                                </div>
-                            </ul>
+                            <a class="nav-link pe-2" href="{{ route('front.cart') }}" title="Add to cart">
+                                <i class="fas fa-shopping-cart fa-lg"></i>
+                                <div class="cart_count">{{ Cart::count() }}</div>
+                            </a>
                         </div>
 
                     </div>
 
-                    <div class="category_mobile" >
+                    <div class="category_mobile">
 
                         @if ($subCategories->isNotEmpty())
-                            <ul class="navbar_subCategory">
+                            <ul class="navbar_subCategory navbar_subCategory_mobile ">
                                 @foreach ($subCategories as $getSubCategory)
                                     <a href="javascript:void(0)" class="navbar_subCategory_link">
                                         <li class="navbar_subCategory_text">{{ $getSubCategory->name }}</li>
@@ -173,6 +177,33 @@ $subCategories = getSubCategories();
                         @endif
                     </div>
 
+                    <ul class="social_media_container " style="position: absolute; bottom: 0;">
+                        <li class="nav-item cart_count_container">
+
+                        </li>
+                        <div class="d-flex flex-wrap mt-3">
+                            <li class="nav-item">
+                                <a class="nav-link pe-2" href="#!">
+                                    <i class="fab fa-youtube fa-2x"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-2" href="#!">
+                                    <i class="fab fa-facebook-f fa-2x"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-2" href="#!">
+                                    <i class="fab fa-twitter fa-2x"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link ps-2" href="#!">
+                                    <i class="fab fa-instagram fa-2x"></i>
+                                </a>
+                            </li>
+                        </div>
+                    </ul>
 
                 </div>
 
@@ -186,8 +217,8 @@ $subCategories = getSubCategories();
                             <div class="col-md-2">
                                 <div class="logo">
                                     <a href="{{ route('home') }}" class="text-align-center m-1 ">
-                                        <img src="{{ asset('frontend_assets/img/logo.png') }}" alt="logo" loading="lazy"
-                                            height="30%" width="60%" />
+                                        <img src="{{ asset('frontend_assets/img/logo.png') }}" alt="logo"
+                                            loading="lazy" height="30%" width="60%" />
                                     </a>
                                 </div>
                             </div>
@@ -200,7 +231,8 @@ $subCategories = getSubCategories();
                                         <ul class="navbar_subCategory">
                                             @foreach ($subCategories as $getSubCategory)
                                                 <a href="javascript:void(0)" class="navbar_subCategory_link">
-                                                    <li class="navbar_subCategory_text">{{ $getSubCategory->name }}</li>
+                                                    <li class="navbar_subCategory_text">{{ $getSubCategory->name }}
+                                                    </li>
                                                 </a>
                                             @endforeach
                                         </ul>
@@ -214,7 +246,8 @@ $subCategories = getSubCategories();
                             <div class="col-md-2" style="margin: auto;">
                                 <ul class="social_media_container ">
                                     <li class="nav-item cart_count_container">
-                                        <a class="nav-link pe-2" href="{{ route('front.cart') }}" title="Add to cart">
+                                        <a class="nav-link pe-2" href="{{ route('front.cart') }}"
+                                            title="Add to cart">
                                             <i class="fas fa-shopping-cart"></i>
                                             <div class="cart_count">{{ Cart::count() }}</div>
                                         </a>

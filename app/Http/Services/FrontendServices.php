@@ -29,7 +29,8 @@ class FrontendServices
         $featuredProducts = FeaturedProduct::where([['status', 'active'], ['showHome', 'yes']])->get();
         $newArrivalProducts = NewArrival::where('status', 'active')->with('newArrivalImages')->get();
         $exhibitionProducts = Exhibition::with('exhibitionImages')->orderBy('id', 'desc')->get();
-        return view('frontend.welcome', compact('subCategories', 'reviews', 'featuredProducts', 'newArrivalProducts', 'exhibitionProducts'));
+        $totalImages = $exhibitionProducts->pluck('exhibitionImages')->flatten()->count();
+        return view('frontend.welcome', compact('subCategories', 'reviews', 'featuredProducts', 'newArrivalProducts', 'exhibitionProducts',  'totalImages'));
     }
 
     public function cart()
@@ -351,9 +352,10 @@ class FrontendServices
     }
 
     // Get initial categories data when home page is loaded
-    public function getInitialCategory(){
+    public function getInitialCategory()
+    {
 
-        $initialCategory = SubCategory::with('subCategoryImages')->get(); 
+        $initialCategory = SubCategory::with('subCategoryImages')->get();
         return response()->json([
             "status" => true,
             "initialCategory" => $initialCategory
