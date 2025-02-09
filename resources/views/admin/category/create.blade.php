@@ -48,7 +48,7 @@
                                     </select>
                                     <p></p>
                                 </div>
-                            </div>
+                            </div> 
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="validationCustom03" class="form-label"> Show on Home </label>
@@ -57,20 +57,22 @@
                                             Select option ...
                                         </option>
                                         <option value="Yes"
-                                            {{ isset($category->showOnHome) && $category->showOnHome == 'Yes' ? 'selected' : '' }}>
+                                            {{ isset($category->showOnHome) && $category->showOnHome == 'yes' ? 'selected' : '' }}>
                                             Yes</option>
                                         <option value="No"
-                                            {{ isset($category->showOnHome) && $category->showOnHome == 'No' ? 'selected' : '' }}>
+                                            {{ isset($category->showOnHome) && $category->showOnHome == 'no' ? 'selected' : '' }}>
                                             No</option>
                                     </select>
                                     <p></p>
                                 </div>
                             </div>
                         </div>
-
-
                         <div>
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                            <button class="btn btn-primary" type="submit" id="submit_btn">Submit</button>
+                            <div id="submit_loader" style="display: none;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -86,6 +88,8 @@
         $(document).ready(function() {
             $("#categoryForm").submit(function(e) {
                 e.preventDefault();
+                $("#submit_btn").attr("disabled", true).hide();
+                $("#submit_loader").show();
 
                 $.ajax({
                     url: "{{ route('categories.store') }}",
@@ -115,7 +119,12 @@
                             });
                         }
                         console.error('AJAX request failed', status, error);
-                    }
+                    },
+                    complete: function() {
+                        // Re-enable the submit button and hide loader
+                        $("#submit_btn").attr("disabled", false).show();
+                        $("#submit_loader").hide();
+                    },
                 });
             });
 

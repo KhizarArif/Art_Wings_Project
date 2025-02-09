@@ -1,40 +1,47 @@
 <section>
-    <div class="container">
-        <h1 class="new_arrival_title"> CATEGORIES </h1>
-
+    @foreach ($categories as $category)
         <div class="container">
-            <div class="tabs-to-dropdown">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <!-- Dropdown for Mobile View -->
-                    <select class="form-select d-md-none" id="categories-dropdown" onchange="filterCategories(this.value)">
-                        @if ($subCategories != null)
-                            @foreach ($subCategories as $subcategory)
-                                <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                
-                    <!-- Tabs for Desktop View -->
-                    <ul class="nav nav-pills d-none d-md-flex text-center" id="pills-tab" role="tablist">
-                        @if ($subCategories != null)
-                            @foreach ($subCategories as $subcategory)
-                                <li class="category_container" role="presentation"
-                                    onclick="filterCategories('{{ $subcategory->id }}')">
-                                    <a class="p-0" id="pills-{{ $subcategory->id }}-tab" data-toggle="pill"
-                                        href="javascript:void(0)" role="tab"
-                                        aria-controls="pills-{{ $subcategory->id }}" aria-selected="true">
-                                    </a>
-                                    <h6 class="m-0"> {{ $subcategory->name }} </h6>
-                                </li>
-                            @endforeach
-                        @endif
-                    </ul>
-                </div>
-                
+            <h1 class="new_arrival_title">{{ $category->name }}</h1>
+            <div class="new_arrival_container">
+                <div class="row">
+                    @foreach ($category->subCategories as $subCategory)
+                        <div
+                            class="col-md-4 col-lg-3 col-sm-6 col-xs-12 my-2 filter-item all new d-flex flex-column justify-content-between">
+                            <div class="card new_arrival_card border border-2">
+                                <div class="img_container position-relative">
+                                    <a href="javascript:void(0)">
+                                        @if ($subCategory->subCategoryImages->isNotEmpty())
+                                            <img src="{{ asset('uploads/subCategory/large/' . $subCategory->subCategoryImages->first()->image) }}"
+                                                class="card-img-top shop-item-image zoomable-image"
+                                                alt="{{ $subCategory->name }}">
+                                        @else
+                                            <img src="{{ asset('path/to/default/image.jpg') }}"
+                                                class="card-img-top shop-item-image zoomable-image"
+                                                alt="{{ $subCategory->name }}">
+                                        @endif
 
-                <div class="tab-content" id="pills-tabContent"></div>
+                                    </a>
+                                    <div class="overlay">
+                                        <h3 class="text-white text-center">{{ $subCategory->name }}</h3>
+                                        <div class="icons">
+                                            {{-- <a href="javascript:void(0)">
+                                                <i class="fa fa-search-plus" aria-hidden="true" data-toggle="tooltip"
+                                                    data-placement="top" title="view details"></i>
+                                            </a> --}}
+
+                                            <a href="{{ route('frontend.subProducts', $subCategory->slug) }}">
+                                                <i class="fa fa-eye" aria-hidden="true" data-toggle="tooltip"
+                                                    data-placement="top" title="view details">
+                                                </i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
-
+    @endforeach
 </section>

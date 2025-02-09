@@ -81,15 +81,15 @@ Route::group(["prefix" => "dashboard"], function () {
             Route::get('/logout', 'logout')->name('admin.logout');
         });
 
-        // Route::controller(CategoryController::class)->prefix('categories')->group(function () {
-        //     Route::get('', 'index')->name('categories.index');
-        //     Route::get('create', 'create')->name('categories.create');
-        //     Route::get('edit/{id}', 'edit')->name('categories.edit');
-        //     Route::post('store', 'store')->name('categories.store');
-        //     Route::delete('delete/{id}', 'destroy')->name('categories.delete');
-        // });
+        Route::controller(CategoryController::class)->prefix('categories')->group(function () {
+            Route::get('', 'index')->name('categories.index');
+            Route::get('create', 'create')->name('categories.create');
+            Route::get('edit/{id}', 'edit')->name('categories.edit');
+            Route::post('store', 'store')->name('categories.store');
+            Route::delete('delete/{id}', 'destroy')->name('categories.delete');
+        });
 
-        Route::controller(SubCategoryController::class)->prefix('categories')->group(function () {
+        Route::controller(SubCategoryController::class)->prefix('subcategories')->group(function () {
             Route::get('', 'index')->name('subcategories.index');
             Route::get('create', 'create')->name('subcategories.create');
             Route::get('edit/{id}', 'edit')->name('subcategories.edit');

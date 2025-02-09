@@ -12,6 +12,7 @@ class SubCategoryController extends Controller
         $this->subCategoryServices = $subCategoryServices;
     }
 
+
     public function index(){
         return $this->subCategoryServices->index();
     }

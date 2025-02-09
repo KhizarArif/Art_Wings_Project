@@ -7,13 +7,13 @@
 
                     <div class="row d-flex align-items-center  ">
                         <div class="col-sm-6 col-md-6 col-lg-8">
-                            <h4> Categories </h4>
+                            <h4> Sub Categories </h4>
                         </div>
 
                         <div class="col-sm-6 col-md-6 col-lg-4 ">
                             <div class="button-items ">
                                 <button type="button" class="btn btn-outline-info waves-effect waves-light "
-                                    onclick="addCategoryPage()" style="float: right;"> Add Category </button>
+                                    onclick="addCategoryPage()" style="float: right;"> Add Sub Category </button>
                             </div>
                         </div>
 
@@ -23,6 +23,7 @@
                             <thead>
                                 <tr>
                                     <th>SR #</th>
+                                    <th>Category</th>
                                     <th>Name</th>
                                     <th>Status</th>
                                     <th> Action </th>
@@ -35,6 +36,7 @@
                                     @foreach ($subCategories as $subCategory)
                                         <tr>
                                             <td>{{ $subCategory->id }}</td>
+                                            <td>{{ $subCategory->category->name }}</td>
                                             <td>{{ $subCategory->name }}</td>
                                             <td>
                                                 @if ($subCategory->status == 'active')

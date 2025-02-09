@@ -3,7 +3,7 @@
 @section('content')
 
 
-    <section class="container ">
+    <section class="container mt-4">
         <div class="row ">
             <!-- Contact and Delivery Information -->
             <div class="col-md-6">
@@ -67,7 +67,7 @@
                         <div> Cash On Delivery (COD) </div>
                     </div>
 
-                    <button type="submit" class="btn order_button">Complete order</button>
+                    <button type="submit" class="order_button">Complete order</button>
 
                 </form>
             </div>

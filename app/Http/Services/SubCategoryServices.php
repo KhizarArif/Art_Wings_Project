@@ -17,13 +17,14 @@ class SubCategoryServices
 {
     public function index()
     {
-        $subCategories = SubCategory::orderBy('id', 'desc')->get();
+        $subCategories = SubCategory::orderBy('id', 'desc')->with('category')->get(); 
         return view('admin.subCategory.index', compact('subCategories'));
     }
 
     public function create()
     {
-         return view('admin.subCategory.create');
+        $categories = Category::orderBy('id', 'asc')->select('name', 'id')->get(); 
+         return view('admin.subCategory.create', compact('categories'));
     }
 
     public function store($request)
@@ -32,6 +33,8 @@ class SubCategoryServices
             'name' => 'required',
             'status' => 'required', 
             'show_on_home' => 'required',
+            'category_id' => 'required',
+
         ]);
 
         if ($validator->fails()) {
@@ -44,7 +47,7 @@ class SubCategoryServices
             $categoryExists = SubCategory::where('name', $request->name)->exists();
 
             if ($categoryExists) {
-                $message = 'Category with this name already exists.';
+                $message = 'Sub Category with this name already exists.';
 
                 return response()->json(['error' => $message]);
             }
@@ -54,7 +57,8 @@ class SubCategoryServices
 
             $subCategory = $request->id ? SubCategory::find($request->id) : new SubCategory();
             $subCategory->name = $request->name;
-            $subCategory->slug = $request->slug;     
+            $subCategory->slug = $request->slug;    
+            $subCategory->category_id = $request->category_id; 
             $subCategory->status = $request->status;
             $subCategory->showHome = $request->show_on_home;
             $subCategory->save();
@@ -100,7 +104,7 @@ class SubCategoryServices
             };
 
 
-            $message = $request->id ? 'Category Update successfully' : 'Category created successfully.';
+            $message = $request->id ? 'Sub Category Update successfully' : 'Sub Category created successfully.';
             return response()->json(['status' => true, 'message' => $message]);
         }
     }
@@ -110,7 +114,8 @@ class SubCategoryServices
     {
         $subCategory = SubCategory::find($request->id);
         $subCategoryImages = SubCategoryImage::where('sub_category_id', $request->id)->get();
-        return view('admin.subCategory.edit', compact('subCategory', 'subCategoryImages'));
+        $categories = Category::orderBy('id', 'asc')->select('name', 'id')->get(); 
+        return view('admin.subCategory.edit', compact('subCategory', 'subCategoryImages', 'categories'));
     }
 
     public function destroy($id)
@@ -120,7 +125,7 @@ class SubCategoryServices
 
         return response()->json([
             "status" => true,
-            "message" => 'Category Deleted Successfully! ',
+            "message" => 'Sub Category Deleted Successfully! ',
         ]);
     }
 

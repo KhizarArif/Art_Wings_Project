@@ -25,9 +25,16 @@
 
                  
                  <li>
-                     <a href="{{ route('subcategories.index') }}" class=" waves-effect">
+                     <a href="{{ route('categories.index') }}" class=" waves-effect">
                          <i class="ri-checkbox-multiple-blank-fill"></i>
                          <span> Category </span>
+                     </a>
+                 </li>
+                 
+                 <li>
+                     <a href="{{ route('subcategories.index') }}" class=" waves-effect">
+                         <i class="ri-checkbox-multiple-blank-fill"></i>
+                         <span> Sub Category </span>
                      </a>
                  </li>
 

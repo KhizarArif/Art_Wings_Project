@@ -29,7 +29,6 @@ $subCategories = getSubCategories();
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/imageGallary.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend_assets/css/video.css') }}" />
 
-
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -53,7 +52,7 @@ $subCategories = getSubCategories();
         /* Color of the links BEFORE scroll */
         .navbar-before-scroll .nav-link,
         .navbar-before-scroll .navbar-toggler-icon {
-            color: #ce0000;
+            color: #fff`;
         }
 
         /* Color of the links AFTER scroll */
@@ -65,6 +64,13 @@ $subCategories = getSubCategories();
         /* Color of the navbar AFTER scroll */
         .navbar-after-scroll {
             background-color: #000;
+        }
+
+        /* Social media icons background color before scroll */
+        .navbar-before-scroll .social_media_container a {
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
         }
 
         /* Transition after scrolling */
@@ -88,17 +94,22 @@ $subCategories = getSubCategories();
 
             .navbar-before-scroll .nav-link,
             .navbar-before-scroll .navbar-toggler-icon {
-                color: #f71a1a;
+                color: #000;
             }
 
-            /* #main-navbar {
-                background-color: #131212;
+            .navbar-after-scroll .nav-link,
+            .navbar-after-scroll .navbar-toggler-icon {
+                color: #000 !important;
             }
 
-            .nav-link,
-            .navbar-toggler-icon {
-                color: #ffffff !important;
-            } */
+            .navbar-before-scroll .social_media_container a {
+                color: white;
+                background: rgb(8, 147, 228);
+                padding: 5px;
+                border-radius: 5px;
+                margin: 0 1rem;
+            }
+
         }
     </style>
     <style>
@@ -158,7 +169,7 @@ $subCategories = getSubCategories();
                         <div class="col-md-6">
                             <a class="nav-link pe-2" href="{{ route('front.cart') }}" title="Add to cart">
                                 <i class="fas fa-shopping-cart fa-lg"></i>
-                                <div class="cart_count">{{ Cart::count() }}</div>
+                                <div class="cart_count_mobile">{{ Cart::count() }}</div>
                             </a>
                         </div>
 
@@ -177,29 +188,21 @@ $subCategories = getSubCategories();
                         @endif
                     </div>
 
-                    <ul class="social_media_container " style="position: absolute; bottom: 0;">
-                        <li class="nav-item cart_count_container">
-
-                        </li>
-                        <div class="d-flex flex-wrap mt-3">
+                    <ul class="social_media_container" >
+                        <div class="d-flex flex-wrap mx-2 mt-3">
                             <li class="nav-item">
                                 <a class="nav-link pe-2" href="#!">
-                                    <i class="fab fa-youtube fa-2x"></i>
+                                    <i class="fab fa-youtube fa-1x"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link px-2" href="#!">
-                                    <i class="fab fa-facebook-f fa-2x"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link px-2" href="#!">
-                                    <i class="fab fa-twitter fa-2x"></i>
+                                    <i class="fab fa-facebook-f fa-1x"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link ps-2" href="#!">
-                                    <i class="fab fa-instagram fa-2x"></i>
+                                    <i class="fab fa-instagram fa-1x"></i>
                                 </a>
                             </li>
                         </div>
@@ -211,7 +214,6 @@ $subCategories = getSubCategories();
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Collapsible wrapper -->
-
                     <div class="navbar_container">
                         <div class="row">
                             <div class="col-md-2">
@@ -244,7 +246,7 @@ $subCategories = getSubCategories();
 
                             {{-- Social Container Start --}}
                             <div class="col-md-2" style="margin: auto;">
-                                <ul class="social_media_container ">
+                                <ul class="social_media_container">
                                     <li class="nav-item cart_count_container">
                                         <a class="nav-link pe-2" href="{{ route('front.cart') }}"
                                             title="Add to cart">
@@ -252,7 +254,7 @@ $subCategories = getSubCategories();
                                             <div class="cart_count">{{ Cart::count() }}</div>
                                         </a>
                                     </li>
-                                    <div class="d-flex">
+                                    <div class="d-flex gap-1">
                                         <li class="nav-item">
                                             <a class="nav-link pe-2" href="#!">
                                                 <i class="fab fa-youtube"></i>
@@ -261,11 +263,6 @@ $subCategories = getSubCategories();
                                         <li class="nav-item">
                                             <a class="nav-link px-2" href="#!">
                                                 <i class="fab fa-facebook-f"></i>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link px-2" href="#!">
-                                                <i class="fab fa-twitter"></i>
                                             </a>
                                         </li>
                                         <li class="nav-item">

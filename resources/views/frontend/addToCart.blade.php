@@ -92,7 +92,7 @@
                             </td>
                             <td> Rs.{{ $content->price }} </td>
                             <td style="width: 20%;">
-                                <div class="input-group quantity" style="width: 100px;">
+                                <div class="input_group quantity" style="width: 100px;">
                                     <div class="input-group-btn">
                                         <button class="btn btn-sm btn-dark btn-minus p-2 pt-2 pb-2 sub rounded"
                                             data-id="{{ $content->rowId }}">

@@ -125,8 +125,7 @@ class ProductServices
     public function updateProductImage($request)
     {
 
-        $image = $request->file;
-        // dd($image);
+        $image = $request->file; 
         $ext = $image->getClientOriginalExtension();
         $sourcePath = $image->getPathName();
 

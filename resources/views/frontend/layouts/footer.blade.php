@@ -63,7 +63,7 @@
 <script>
     const navbar = document.getElementById("main-navbar")
 
-    window.addEventListener('scroll', function () {
+    window.addEventListener('scroll', function() {
         if (window.pageYOffset > 0) {
             navbar.classList.add("navbar-after-scroll")
         } else {
@@ -71,11 +71,11 @@
         }
     })
 
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const navbarToggler = document.querySelector(".navbar-toggler");
         const sidebar = document.querySelector(".sidebar");
 
-        navbarToggler.addEventListener("click", function () {
+        navbarToggler.addEventListener("click", function() {
             // Toggle the visibility of the sidebar
             if (sidebar.style.display === "none" || sidebar.style.display === "") {
                 sidebar.style.display = "block"; // Show sidebar
@@ -102,7 +102,7 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            success: function (response) {
+            success: function(response) {
                 console.log(response);
                 if (response.status == true) {
                     window.location.href = "{{ route('front.cart') }}";

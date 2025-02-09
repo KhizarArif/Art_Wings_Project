@@ -4,7 +4,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <h4> Update Category </h4>
+                    <h4> Update Sub Category </h4>
                     <form class="custom-validation" novalidate id="subCategoryForm">
                         @csrf
                         <input type="hidden" name="id" value="{{ isset($subCategory->id) ? $subCategory->id : '' }}"
@@ -66,6 +66,19 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
+                                    <label for="validationCustom03" class="form-label"> Category </label>
+                                    <select class="form-select" id="validationCustom03" name="category_id" required>
+                                        <option selected disabled value="">
+                                            Select option ...
+                                        </option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}" {{ $category->id == $subCategory->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
                                     <label for="validationCustom03" class="form-label"> Status </label>
                                     <select class="form-select" id="validationCustom03" name="status" required>
                                         <option selected disabled value="">
@@ -122,7 +135,7 @@
 
             Dropzone.options.image = {
                 url: "{{ route('subcategories.updateImage') }}",
-                maxFiles: 10,
+                maxFiles: 1,
                 paramName: 'file',
                 params: {
                     'product_id': '{{ $subCategory->id }}',

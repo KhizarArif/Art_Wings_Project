@@ -24,13 +24,13 @@ class FrontendServices
     public function index()
     {
         $subCatId = [];
-        $subCategories = SubCategory::where([['status', "active"], ['showHome', "yes"]])->with('subCategoryImages')->get();
+        $categories = Category::where([['status', "active"], ['showOnHome', "yes"]])->with('subCategories')->get();
         $reviews = Review::all();
         $featuredProducts = FeaturedProduct::where([['status', 'active'], ['showHome', 'yes']])->get();
         $newArrivalProducts = NewArrival::where('status', 'active')->with('newArrivalImages')->get();
         $exhibitionProducts = Exhibition::with('exhibitionImages')->orderBy('id', 'desc')->get();
         $totalImages = $exhibitionProducts->pluck('exhibitionImages')->flatten()->count();
-        return view('frontend.welcome', compact('subCategories', 'reviews', 'featuredProducts', 'newArrivalProducts', 'exhibitionProducts',  'totalImages'));
+        return view('frontend.welcome', compact('categories', 'reviews', 'featuredProducts', 'newArrivalProducts', 'exhibitionProducts',  'totalImages'));
     }
 
     public function cart()

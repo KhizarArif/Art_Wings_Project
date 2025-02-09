@@ -10,7 +10,7 @@ class CategoryServices
 {
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('id', 'desc')->get(); 
         return view('admin.category.index', compact('categories'));
     }
 

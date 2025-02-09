@@ -4,15 +4,16 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <h4> Add Category </h4>
+                    <h4> Add Sub Category </h4>
                     <form class="custom-validation" novalidate id="subCategoryForm">
                         @csrf
                         <div class="row">
+                            <input type="hidden" name="category_id" id="category_id">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="validationCustom01" class="form-label">Name</label>
                                     <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="Category Name" required>
+                                        placeholder="Sub Category Name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -41,6 +42,19 @@
                         <div class="row" id="subCategory_gallery"></div>
 
                         <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="validationCustom03" class="form-label"> Category </label>
+                                    <select class="form-select" id="validationCustom03" name="category_id" required>
+                                        <option selected disabled value="">
+                                            Select option ...
+                                        </option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="validationCustom03" class="form-label"> Status </label>
@@ -153,7 +167,7 @@
         // Dropzone has been added as a global variable.
         const dropzone = new Dropzone(".dropzone", {
             url: "{{ route('image.create') }}",
-            maxFiles: 10,
+            maxFiles: 1,
             paramName: 'image',
             addRemoveLinks: true,
             acceptedFiles: "image/jpeg,image/png,image/gif, image/jpg",
